@@ -1,0 +1,509 @@
+{
+  "name": "LeadFlow AI — Lead Data",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "triggerAtMinute": 59
+            }
+          ]
+        }
+      },
+      "id": "b3c97153-82cb-4109-bdfd-555780f97b58",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -752,
+        144
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4",
+          "mode": "list",
+          "cachedResultName": "LeadFlow AI — Lead Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "efb1d5dc-bbf0-405b-956e-7bdd366b155a",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -528,
+        144
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3oMso3lmEiVOj8YK",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "lj25izwpV9r429q3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/lj25izwpV9r429q3",
+          "cachedResultName": "LeadFlow AI — Lead Analysis Agent"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "id": "4d8f0513-3de9-4373-880c-e35715814671",
+      "name": "Execute Workflow",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        0
+      ],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "amount": 8
+      },
+      "id": "331fd811-0ed8-4c05-a2de-389f14e3557b",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        368,
+        0
+      ],
+      "webhookId": "cdd072ff-0f98-4ae5-91e0-c050430c742a"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4",
+          "mode": "list",
+          "cachedResultName": "LeadFlow AI — Lead Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Lead_ID": "={{ $('Loop Over Items').item.json.Lead_ID }}",
+            "Name": "={{ $('Loop Over Items').item.json.Name }}",
+            "Source": "={{ $('Loop Over Items').item.json.Source }}",
+            "Priority": "={{ $('Execute Workflow').item.json.output.priority }}",
+            "Score": "={{ $('Execute Workflow').item.json.output.score }}",
+            "AI_Recommendation": "={{ $('Execute Workflow').item.json.output.recommended_action }}",
+            "Intent": "={{ $('Execute Workflow').item.json.output.intent }}",
+            "Requirement": "={{ $('Loop Over Items').item.json.Requirement }}",
+            "Budget": "={{ $('Loop Over Items').item.json.Budget }}",
+            "Lead_Date": "={{ $('Loop Over Items').item.json.Lead_Date }}",
+            "Status": "={{ $('Loop Over Items').item.json.Status }}",
+            "Last_Contact": "={{ $('Loop Over Items').item.json.Last_Contact }}",
+            "Next_Followup": "={{ $('Loop Over Items').item.json.Next_Followup }}"
+          },
+          "matchingColumns": [
+            "Lead_ID"
+          ],
+          "schema": [
+            {
+              "id": "Lead_ID",
+              "displayName": "Lead_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Requirement",
+              "displayName": "Requirement",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Lead_Date",
+              "displayName": "Lead_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last_Contact",
+              "displayName": "Last_Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Next_Followup",
+              "displayName": "Next_Followup",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "AI_Recommendation",
+              "displayName": "AI_Recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "3f4d1367-afb5-45c1-b467-22130ee941ab",
+      "name": "Update row in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        592,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3oMso3lmEiVOj8YK",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "40c7c30f-acf3-4f9a-b51a-94e98cbd2918",
+              "leftValue": "={{ $('Execute Workflow').item.json.output.follow_up_required }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "60f99c60-1f4e-4708-a61d-f084b86a6a0f",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "bd3953c9-b422-467f-ab57-c828e7d382b2",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "id": "a2b6c063-8b67-4dc7-80e8-85dc73477b6a",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        816,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "=",
+        "text": "=🚨 Lead Follow-Up Required\n\nLead ID: {{ $('Execute Workflow').item.json.output.lead_id }}\nLead Name: {{ $('Execute Workflow').item.json.output.lead_name }}\n\nIntent: {{ $('Execute Workflow').item.json.output.intent }}\nBuying Stage: {{ $('Execute Workflow').item.json.output.buying_stage }}\nUrgency: {{ $('Execute Workflow').item.json.output.urgency }}\n\nScore: {{ $('Execute Workflow').item.json.output.score }}\nPriority: {{ $('Execute Workflow').item.json.output.priority }}\n\nRecommended Action:\n{{ $('Execute Workflow').item.json.output.recommended_action }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "e60a7f8c-e650-41c2-9644-d5a271840b70",
+      "name": "Send a text message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1040,
+        80
+      ],
+      "webhookId": "0a18f28f-84b1-4340-9488-ed142eeed009",
+      "credentials": {
+        "telegramApi": {
+          "id": "NFTu7QRqZHBtJDDN",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a9c18f3e-62c6-4527-91a8-91c308d68af3",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        144
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "43170358-12b2-4008-bfd2-7f6235c54fe9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8f42e5ca8c85abfa82feef48a763ef2f5bd76c79288796742d31c8aa16bf34ab"
+  },
+  "nodeGroups": [],
+  "id": "UxJ2NTsndVVdWhY5",
+  "tags": []
+}

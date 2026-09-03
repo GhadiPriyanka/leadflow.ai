@@ -1,0 +1,665 @@
+{
+  "name": "LeadFlow AI — Salesperson Command",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "1db3744f-dd4a-4246-a918-2e6bdd46d2e4",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -1424,
+        -688
+      ],
+      "webhookId": "fa087dd5-5340-4552-906f-50096ac3bc12",
+      "credentials": {
+        "telegramApi": {
+          "id": "NFTu7QRqZHBtJDDN",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/top3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "91c52e00-6c67-4968-8a6f-e00e42798543"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4ef44403-26f5-4ab6-8eca-5eced6982614",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/details",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1d78dcb3-7816-4a71-9ebc-199b4287c893",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/followup",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "388bf549-6459-4a0d-84d8-b326b6c8b014",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/status",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6d5f235d-5e22-4841-bae3-bc3d76bcf14c",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1200,
+        -720
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const text =$input.first().json.message.text;\n\nconst parts = text.trim().split(/\\s+/);\n\nreturn [{\n  json: {\n    lead_id: parts[1]\n  }\n}];"
+      },
+      "id": "6a54ef69-3b41-40bd-80c3-8f5d6cc86396",
+      "name": "Code in JavaScript1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -976,
+        -784
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4",
+          "mode": "list",
+          "cachedResultName": "LeadFlow AI — Lead Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "1fd79380-5d3f-4092-9724-204e8301e165",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -752,
+        -784
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3oMso3lmEiVOj8YK",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads = $input.all();\n\nreturn leads.map(item => {\n  const lead = item.json;\n\n  const message =\n`📋 LEAD DETAILS\n\nLead ID: ${lead.Lead_ID}\nName: ${lead.Name}\nSource: ${lead.Source}\nRequirement: ${lead.Requirement}\nBudget: ${lead.Budget}\n\n🎯 AI ANALYSIS\nScore: ${lead.Score}\nPriority: ${lead.Priority}\nIntent: ${lead.Intent}\nAI Recommendation: ${lead.AI_Recommendation}\n\n📌 NEXT ACTION\n${lead.AI_Recommendation}`;\n\n  return {\n    json: {\n      ...lead,\n      message,\n      Score: Number(lead.Score) || 0\n    }\n  };\n});"
+      },
+      "id": "bed41086-7013-4a7f-9bbf-69263c9c4f0f",
+      "name": "Code in JavaScript2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        -784
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4dfc87b5-3515-47a1-afbb-cb1211d3a298",
+              "leftValue": "={{ $json.Score }}",
+              "rightValue": 70,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "370e8607-0176-4d0e-98fd-a1452b1a26c5",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -304,
+        -784
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Score",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "90f54a87-ea47-410a-94bb-862bbfb759b7",
+      "name": "Sort",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -784
+      ]
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "id": "41255c2d-540c-4501-b27a-4c2336d5c717",
+      "name": "Limit",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        144,
+        -784
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads = $input.all();\n\nlet message = \"🔥 TOP 3 PRIORITY LEADS\\n\\n\";\n\nleads.forEach((item, index) => {\n  const lead = item.json;\n\n  message +=\n`${index + 1}. ${lead.Name || \"Unknown\"} (${lead.Lead_ID})\n🎯 Score: ${lead.Score}\n🚨 Priority: ${lead.Priority}\n💡 Intent: ${lead.Intent}\n📌 Action: ${lead.AI_Recommendation}\n\n`;\n});\n\nmessage += \"👉 Contact the highest-score lead first.\";\n\nreturn [{\n  json: {\n    message\n  }\n}];"
+      },
+      "id": "677727bd-bb79-49e7-b74e-c8ce500e115b",
+      "name": "Code in JavaScript",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        304,
+        -784
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "d4b8d978-a0de-42e3-a8ee-4a957dfb8eb4",
+      "name": "Send a text message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -576
+      ],
+      "webhookId": "7e90e211-6dc6-4d2e-8679-01ebd56935c0",
+      "credentials": {
+        "telegramApi": {
+          "id": "NFTu7QRqZHBtJDDN",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.message.text || \"\";\n\nconst parts = text.trim().split(/\\s+/);\n\nreturn [{\n  json: {\n    command: parts[0],\n    lead_id: parts[1] || \"\"\n  }\n}];"
+      },
+      "id": "291ab156-cd74-480a-a392-13a286bc201c",
+      "name": "Code in JavaScript3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -976,
+        -592
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4",
+          "mode": "list",
+          "cachedResultName": "LeadFlow AI — Lead Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "07a3d8af-8bb6-4855-b956-b9f7956b7375",
+      "name": "Get row(s) in sheet1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -752,
+        -592
+      ],
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3oMso3lmEiVOj8YK",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(i => i.json).filter(r => r && r.Lead_ID);\n\nconst leadId = String($('Code in JavaScript3').first().json.lead_id || '').trim();\n\nif (!leadId) {\n  return [{ json: { message: \"⚠️ Please provide a Lead ID. Example: /details L001\" } }];\n}\n\nconst lead = rows.find(r => String(r.Lead_ID).trim().toLowerCase() === leadId.toLowerCase());\n\nif (!lead) {\n  return [{ json: { message: `❌ Lead ${leadId} not found.` } }];\n}\n\nconst message =\n`📋 LEAD DETAILS\n\nLead ID: ${lead.Lead_ID}\nName: ${lead.Name}\nSource: ${lead.Source}\nRequirement: ${lead.Requirement}\nBudget: ${lead.Budget}\n\n🎯 AI ANALYSIS\nScore: ${lead.Score}\nPriority: ${lead.Priority}\nIntent: ${lead.Intent}\nAI Recommendation: ${lead.AI_Recommendation}\n\n📌 NEXT ACTION\n${lead.AI_Recommendation}`;\n\nreturn [{ json: { message } }];"
+      },
+      "id": "9d217000-5074-4bdb-9ba4-948000880ead",
+      "name": "Code in JavaScript4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -592
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4",
+          "mode": "list",
+          "cachedResultName": "LeadFlow AI — Lead Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "1437434d-adbb-47d8-96f2-d1b05b79af05",
+      "name": "Get row(s) for follow-up",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -976,
+        -400
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3oMso3lmEiVOj8YK",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads = $input.all().map(i => i.json);\n\n// Parse dd-mm-yyyy into a Date (or null)\nfunction parseDate(s) {\n  if (!s || typeof s !== 'string') return null;\n  const m = s.trim().match(/^(\\d{1,2})[-\\/](\\d{1,2})[-\\/](\\d{2,4})$/);\n  if (!m) return null;\n  let [, d, mo, y] = m;\n  if (y.length === 2) y = '20' + y;\n  const dt = new Date(Number(y), Number(mo) - 1, Number(d));\n  return isNaN(dt.getTime()) ? null : dt;\n}\n\nconst now = new Date();\nnow.setHours(0, 0, 0, 0);\n\n// A lead needs follow-up if its status is Follow-up/Contacted,\n// or it has a Next_Followup date that is today or in the past.\nconst due = leads.filter(lead => {\n  const status = String(lead.Status || '').toLowerCase();\n  const next = parseDate(lead.Next_Followup);\n  const statusMatch = status === 'follow-up' || status === 'followup' || status === 'contacted';\n  const dateDue = next !== null && next <= now;\n  return statusMatch || dateDue;\n});\n\nlet message;\nif (due.length === 0) {\n  message = '✅ FOLLOW-UPS\\n\\nNo leads currently need follow-up. You are all caught up!';\n} else {\n  message = `📌 FOLLOW-UPS REQUIRED (${due.length})\\n\\n`;\n  due.forEach((lead, index) => {\n    message +=\n`${index + 1}. ${lead.Name || 'Unknown'} (${lead.Lead_ID})\nStatus: ${lead.Status || '-'}\nPriority: ${lead.Priority || '-'}\nNext Follow-up: ${lead.Next_Followup || 'Not set'}\nAction: ${lead.AI_Recommendation || '-'}\n\n`;\n  });\n  message += '👉 Reach out to these leads today.';\n}\n\nreturn [{ json: { message } }];"
+      },
+      "id": "bf269d9c-5c73-43e0-9748-367bb7c415af",
+      "name": "Build Follow-up List",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -752,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4",
+          "mode": "list",
+          "cachedResultName": "LeadFlow AI — Lead Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_Pm2Wq2d5YEscflLyxRPsIKjJOGHEnfuvyCD4WR_3M4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "1b7b8ff4-13f2-4d98-8801-f91df85febd5",
+      "name": "Get row(s) for status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -976,
+        -208
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3oMso3lmEiVOj8YK",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads = $input.all().map(i => i.json).filter(l => l.Lead_ID);\n\nconst total = leads.length;\n\nconst byStatus = {};\nconst byPriority = {};\n\nfor (const lead of leads) {\n  const status = String(lead.Status || 'Unknown').trim() || 'Unknown';\n  const priority = String(lead.Priority || 'Unknown').trim() || 'Unknown';\n  byStatus[status] = (byStatus[status] || 0) + 1;\n  byPriority[priority] = (byPriority[priority] || 0) + 1;\n}\n\nfunction fmt(obj) {\n  return Object.entries(obj)\n    .sort((a, b) => b[1] - a[1])\n    .map(([k, v]) => `• ${k}: ${v}`)\n    .join('\\n');\n}\n\nconst message =\n`📊 LEAD STATUS SUMMARY\n\nTotal leads: ${total}\n\nBy status:\n${fmt(byStatus)}\n\nBy priority:\n${fmt(byPriority)}`;\n\nreturn [{ json: { message } }];"
+      },
+      "id": "820fb7b5-1de6-478d-96cf-3af548983dcc",
+      "name": "Build Status Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -752,
+        -208
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get row(s) for follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get row(s) for status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) for follow-up": {
+      "main": [
+        [
+          {
+            "node": "Build Follow-up List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Follow-up List": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) for status": {
+      "main": [
+        [
+          {
+            "node": "Build Status Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Status Summary": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ff9fdff0-d494-42be-b477-fbdd67f47bb4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8f42e5ca8c85abfa82feef48a763ef2f5bd76c79288796742d31c8aa16bf34ab"
+  },
+  "nodeGroups": [],
+  "id": "mSr9278fMI3HPtaD",
+  "tags": []
+}

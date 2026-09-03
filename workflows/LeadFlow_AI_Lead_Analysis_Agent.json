@@ -1,0 +1,118 @@
+{
+  "name": "LeadFlow AI — Lead Analysis Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "bbb2d833-af37-436a-948c-072993423cc5",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=The input contains the original lead record.\n\nAlways copy:\n- Lead_ID → lead_id\n- Name → lead_name\n\nUse the exact values from the input.\n\nNever return \"Not Provided\" when the input contains the value.\n\nDo not invent any lead information.\n\nThen analyze the lead and return:\n- intent\n- buying_stage\n- urgency\n- score\n- priority\n- recommended_action\n- follow_up_required\n\nHere is the lead data received from the previous workflow:\n\n{{ JSON.stringify($json) }}\n\nAnalyze ONLY this lead.\n\nIMPORTANT:\n- Do not invent or change Lead_ID.\n- Do not invent or change the lead name.\n- Use only the information provided in the input.\n- Return the same Lead_ID from the input.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are the Lead Analysis Agent for LeadFlow AI.\n\nYour job is to analyze one sales lead and determine:\n1. Customer intent\n2. Buying stage\n3. Urgency\n4. Lead score from 0 to 100\n5. Priority\n6. Recommended next action\n\nScoring rules:\n\n90-100 = HOT\n70-89 = WARM\n40-69 = COLD\n0-39 = LOW\n\nConsider:\n- Specificity of requirement\n- Budget information\n- Buying urgency\n- Current lead status\n- Lead source\n- Previous contact information\n- Next follow-up date\n\nDo not invent information that is not provided.\n\nReturn ONLY valid JSON in this format:\n\n{\n  \"lead_id\": \"\",\n  \"lead_name\": \"\",\n  \"intent\": \"\",\n  \"buying_stage\": \"\",\n  \"urgency\": \"\",\n  \"score\": 0,\n  \"priority\": \"\",\n  \"recommended_action\": \"\",\n  \"reason\": \"\"\n}"
+        }
+      },
+      "id": "267c9c14-ec2e-484b-b692-22dabe5d4aba",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        176,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"lead_id\": {\n      \"type\": \"string\"\n    },\n    \"lead_name\": {\n      \"type\": \"string\"\n    },\n    \"intent\": {\n      \"type\": \"string\"\n    },\n    \"buying_stage\": {\n      \"type\": \"string\"\n    },\n    \"urgency\": {\n      \"type\": \"string\"\n    },\n    \"score\": {\n      \"type\": \"number\"\n    },\n    \"priority\": {\n      \"type\": \"string\"\n    },\n    \"recommended_action\": {\n      \"type\": \"string\"\n    },\n    \"follow_up_required\": {\n      \"type\": \"boolean\"\n    }\n  },\n  \"required\": [\n    \"lead_id\",\n    \"lead_name\",\n    \"intent\",\n    \"buying_stage\",\n    \"urgency\",\n    \"score\",\n    \"priority\",\n    \"recommended_action\",\n    \"follow_up_required\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        576,
+        160
+      ],
+      "id": "337002b9-95dd-4e98-99e2-0195d5cf97a9",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        32,
+        240
+      ],
+      "id": "3f9f2503-8d0a-42b7-8e04-c87ec579278d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pzHK9ka4yd2iZBQa",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0aa9f4e1-5b01-450d-9e3e-0c28f5f98778",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8f42e5ca8c85abfa82feef48a763ef2f5bd76c79288796742d31c8aa16bf34ab"
+  },
+  "nodeGroups": [],
+  "id": "lj25izwpV9r429q3",
+  "tags": []
+}

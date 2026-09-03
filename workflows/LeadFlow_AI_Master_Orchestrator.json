@@ -1,0 +1,144 @@
+{
+  "name": "LeadFlow AI — Master Orchestrator",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -224,
+        48
+      ],
+      "id": "fe11f947-d194-45d9-8ea4-c0550382bae4",
+      "name": "Telegram Trigger",
+      "webhookId": "127a9703-14aa-4422-a52e-5d2260534903",
+      "credentials": {
+        "telegramApi": {
+          "id": "NFTu7QRqZHBtJDDN",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "You are LeadFlow AI, the Master Orchestrator for an AI-powered lead management system.\n\nYour job is to understand the user's Telegram instruction and determine what lead-management operation they want.\n\nYou support these operations:\n\n1. PROCESS_LEADS\nUse when the user wants to analyze, process, qualify, or review new leads.\n\n2. SHOW_HOT_LEADS\nUse when the user wants to see high-priority or highly interested leads.\n\n3. FOLLOW_UP\nUse when the user wants to follow up with a lead or contact a lead.\n\n4. DAILY_SUMMARY\nUse when the user asks for today's lead or sales activity summary.\n\n5. UPDATE_STATUS\nUse when the user wants to change a lead's status.\n\n6. HELP\nUse when the user asks what you can do.\n\nDo not invent lead information.\n\nFor every request, determine:\n- intent\n- lead_name if mentioned\n- requested_action\n- priority if explicitly mentioned\n- a short response for the user\n\nReturn ONLY valid JSON in this format:\n\n{\n  \"intent\": \"\",\n  \"lead_name\": \"\",\n  \"requested_action\": \"\",\n  \"priority\": \"\",\n  \"response\": \"\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "eb979b20-ba30-41d4-9877-5e17e74ade97",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        48
+      ],
+      "id": "16e229cf-ea89-44cf-9319-f87e9c187d6c",
+      "name": "Send a text message",
+      "webhookId": "b5d3a01b-df23-4cb3-ad49-8741896a2f6a",
+      "credentials": {
+        "telegramApi": {
+          "id": "NFTu7QRqZHBtJDDN",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5.4-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5.4-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        208
+      ],
+      "id": "f20e3b61-be75-4935-bdec-ff9b36db2a11",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "XUak17QXVU2whQrU",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8d1f642f-d808-4ae1-9faa-bf7b994b2264",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8f42e5ca8c85abfa82feef48a763ef2f5bd76c79288796742d31c8aa16bf34ab"
+  },
+  "nodeGroups": [],
+  "id": "aBo8oOWeRLrSajnJ",
+  "tags": []
+}
