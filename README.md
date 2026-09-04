@@ -84,15 +84,6 @@ Salesperson Command
      ├── /details L004
      └── /followup
 
-     | Attribute          | Description                            |
-| ------------------ | -------------------------------------- |
-| Score              | Lead quality score                     |
-| Priority           | High / Medium / Low                    |
-| Intent             | Customer's current intent              |
-| Buying Stage       | Stage in the buying journey            |
-| Urgency            | Follow-up urgency                      |
-| Recommendation     | Recommended next action                |
-| Follow-up Required | Whether salesperson action is required |
 
 🛠️ Technology Stack
 n8n — Workflow automation
