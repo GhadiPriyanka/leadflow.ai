@@ -69,21 +69,6 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
               │ Telegram Alert   │
               └──────────────────┘
 
-Salesperson
-     │
-     ▼
- Telegram
-     │
-     ▼
-Master Orchestrator
-     │
-     ▼
-Salesperson Command
-     │
-     ├── /top3
-     ├── /details L004
-     └── /followup
-
 
 🛠️ Technology Stack
 n8n — Workflow automation
