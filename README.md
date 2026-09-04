@@ -1,103 +1,132 @@
 # 🚀 LeadFlow AI
 
-AI-powered lead scoring, follow-up automation, and Telegram sales assistant built with n8n, Google Sheets, and LLMs.
+> AI-powered lead intelligence and sales follow-up automation built with n8n, Google Sheets, Telegram, and LLMs.
 
-## 📌 Project Overview
+## 📌 Overview
 
-LeadFlow AI automates the lead management process for sales teams.
+LeadFlow AI is an AI-powered sales automation system that helps sales teams analyze, prioritize, and follow up with leads.
 
-The system analyzes incoming leads using AI, assigns a lead score and priority, recommends the next action, updates Google Sheets, and sends Telegram alerts for leads requiring follow-up.
+The system automatically analyzes lead data, generates a lead score, identifies intent and priority, recommends the next action, updates Google Sheets, and sends Telegram alerts for leads requiring follow-up.
 
 Salespeople can also interact with the system through Telegram commands.
 
-## 🏗️ Architecture
+## 🎯 Problem Statement
 
-Google Sheets
-        ↓
-n8n Scheduled Workflow
-        ↓
-AI Lead Analysis Agent
-        ↓
-Lead Score + Priority + Intent
-        ↓
-Google Sheets Update
-        ↓
-Telegram Follow-up Alert
+Sales teams often spend significant time manually reviewing leads, deciding which leads should be contacted first, and tracking follow-ups.
 
-Salesperson
-        ↓
-Telegram Commands
-        ↓
-n8n Salesperson Command Workflow
-        ↓
-Lead Information / Top Leads / Follow-up
+LeadFlow AI automates this process by combining workflow automation with AI-powered lead analysis.
 
 ## ✨ Key Features
 
-- AI-powered lead scoring
-- Lead priority classification
-- Customer intent analysis
-- Buying-stage identification
-- Follow-up recommendation
-- Automated Google Sheets updates
-- Telegram notifications
-- Top 3 priority lead identification
-- Lead details lookup
-- Follow-up lead management
-- Scheduled lead processing
+- 🤖 AI-powered lead analysis
+- 🎯 Lead scoring and prioritization
+- 🔍 Customer intent analysis
+- 📊 Buying-stage and urgency analysis
+- 💡 AI-generated next-action recommendations
+- 📑 Automated Google Sheets updates
+- 🔔 Telegram follow-up notifications
+- 🥇 Top 3 priority lead identification
+- 🔎 Individual lead details lookup
+- 🔄 Scheduled lead processing
+- 💬 Telegram-based salesperson assistant
 
-## 🤖 Telegram Commands
+## 🏗️ Architecture
 
-### `/top3`
+[LeadFlow AI Architecture](docs/architecture.png)
 
-Returns the top 3 highest-scoring leads.
+## 🔄 End-to-End Workflow
 
-### `/details L004`
+                    Lead Data
+                        │
+                        ▼
+              ┌──────────────────┐
+              │   Google Sheets  │
+              └────────┬─────────┘
+                       │
+                       ▼
+              ┌──────────────────┐
+              │  Lead Data       │
+              │  n8n Workflow    │
+              └────────┬─────────┘
+                       │
+                       ▼
+              ┌──────────────────┐
+              │ Lead Analysis    │
+              │ AI Agent         │
+              └────────┬─────────┘
+                       │
+                       ▼
+             Score / Priority / Intent
+                       │
+                       ▼
+              ┌──────────────────┐
+              │ Google Sheets    │
+              │ Update           │
+              └────────┬─────────┘
+                       │
+                       ▼
+              ┌──────────────────┐
+              │ Telegram Alert   │
+              └──────────────────┘
 
-Returns detailed information and AI recommendations for a specific lead.
+Salesperson
+     │
+     ▼
+ Telegram
+     │
+     ▼
+Master Orchestrator
+     │
+     ▼
+Salesperson Command
+     │
+     ├── /top3
+     ├── /details L004
+     └── /followup
 
-### `/followup`
+     | Attribute          | Description                            |
+| ------------------ | -------------------------------------- |
+| Score              | Lead quality score                     |
+| Priority           | High / Medium / Low                    |
+| Intent             | Customer's current intent              |
+| Buying Stage       | Stage in the buying journey            |
+| Urgency            | Follow-up urgency                      |
+| Recommendation     | Recommended next action                |
+| Follow-up Required | Whether salesperson action is required |
 
-Returns leads requiring follow-up.
+🛠️ Technology Stack
+n8n — Workflow automation
+LLMs — AI-powered lead analysis
+Google Sheets — Lead data and results
+Telegram Bot — Salesperson interaction and alerts
+JavaScript — Data processing and workflow logic
+JSON — Workflow configuration
 
-## 🛠️ Technologies Used
+🔐 Security
+This repository contains only demonstration/sample data.
+No API keys are included.
+No Telegram bot tokens are included.
+No Google credentials are included.
+No real customer information is included.
+Credentials must be configured separately when importing the workflows into n8n.
 
-- n8n
-- Google Sheets
-- Telegram Bot
-- Large Language Models (LLMs)
-- AI Agents
-- Workflow Automation
-- JavaScript
-- JSON
+💼 Business Value
+LeadFlow AI can help sales teams:
+Reduce manual lead qualification
+Identify high-value leads faster
+Prioritize salesperson activities
+Reduce missed follow-ups
+Standardize lead analysis
+Improve sales team productivity
 
-## 🔄 Workflow
+🚀 Future Enhancements
+CRM integration
+Automatic email follow-ups
+Lead conversion analytics
+Sales dashboard
+Multi-agent lead qualification
+Follow-up scheduling
+Conversation history and memory
 
-1. Lead data is stored in Google Sheets.
-2. n8n periodically reads the lead records.
-3. AI analyzes each lead.
-4. The system generates score, priority, intent, and recommendation.
-5. Results are updated in Google Sheets.
-6. Leads requiring follow-up trigger Telegram notifications.
-7. Salespeople can query lead information through Telegram.
-
-## 🎯 Business Value
-
-LeadFlow AI helps sales teams:
-
-- Identify high-priority leads faster
-- Reduce manual lead analysis
-- Avoid missed follow-ups
-- Standardize lead qualification
-- Improve salesperson productivity
-- Automate repetitive sales operations
-
-## 🔐 Security
-
-This repository contains only sample/demo data.
-
-API keys, Telegram tokens, Google credentials, and confidential customer information are not included.
-
-## 👩‍💻 Author
-
+👩‍💻 Author
 Priyanka Ghadi
