@@ -72,12 +72,12 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 
 🛠️ Technology Stack
 
-n8n - Workflow automation
-LLMs - AI-powered lead analysis
-Google Sheets - Lead data and results
-Telegram Bot - Salesperson interaction and alerts
-JavaScript - Data processing and workflow logic
-JSON - Workflow configuration
+* n8n - Workflow automation
+* LLMs - AI-powered lead analysis
+* Google Sheets - Lead data and results
+* Telegram Bot - Salesperson interaction and alerts
+* JavaScript - Data processing and workflow logic
+* JSON - Workflow configuration
 
 🔐 Security
 
