@@ -71,38 +71,42 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 
 
 🛠️ Technology Stack
-n8n — Workflow automation
-LLMs — AI-powered lead analysis
-Google Sheets — Lead data and results
-Telegram Bot — Salesperson interaction and alerts
-JavaScript — Data processing and workflow logic
-JSON — Workflow configuration
+
+n8n - Workflow automation
+LLMs - AI-powered lead analysis
+Google Sheets - Lead data and results
+Telegram Bot - Salesperson interaction and alerts
+JavaScript - Data processing and workflow logic
+JSON - Workflow configuration
 
 🔐 Security
-This repository contains only demonstration/sample data.
-No API keys are included.
-No Telegram bot tokens are included.
-No Google credentials are included.
-No real customer information is included.
-Credentials must be configured separately when importing the workflows into n8n.
+
+- This repository contains only demonstration/sample data.
+- No API keys are included.
+- No Telegram bot tokens are included.
+- No Google credentials are included.
+- No real customer information is included.
+- Credentials must be configured separately when importing the workflows into n8n.
 
 💼 Business Value
-LeadFlow AI can help sales teams:
-Reduce manual lead qualification
-Identify high-value leads faster
-Prioritize salesperson activities
-Reduce missed follow-ups
-Standardize lead analysis
-Improve sales team productivity
+
+* LeadFlow AI can help sales teams:
+* Reduce manual lead qualification
+* Identify high-value leads faster
+* Prioritize salesperson activities
+* Reduce missed follow-ups
+* Standardize lead analysis
+* Improve sales team productivity
 
 🚀 Future Enhancements
-CRM integration
-Automatic email follow-ups
-Lead conversion analytics
-Sales dashboard
-Multi-agent lead qualification
-Follow-up scheduling
-Conversation history and memory
+
+- CRM integration
+- Automatic email follow-ups
+- Lead conversion analytics
+- Sales dashboard
+- Multi-agent lead qualification
+- Follow-up scheduling
+- Conversation history and memory
 
 👩‍💻 Author
 Priyanka Ghadi
