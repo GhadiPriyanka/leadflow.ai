@@ -1,0 +1,11 @@
+Lead_ID,Name,Source,Requirement,Budget,Lead_Date,Status,Last_Contact,Next_Followup,Score,Priority,Intent,AI_Recommendation
+L001,Aarav Sharma,Website,Looking for a 2BHK apartment within a 7.5M budget,7500000,2026-08-01,New,-,2026-08-03,72,Medium,Purchase inquiry,Initiate first contact and schedule a requirement briefing
+L002,Neha Patel,Referral,Interested in enterprise software demo for a 50-user team,250000,2026-08-01,New,-,2026-08-02,88,High,Product evaluation,Schedule a product demo and understand implementation timeline
+L003,Rahul Mehta,LinkedIn,Comparing CRM solutions and requesting pricing details,180000,2026-08-02,Contacted,2026-08-02,2026-08-04,81,High,Pricing inquiry,Share pricing options and arrange a discovery call
+L004,Priya Deshmukh,Website,Needs a 3BHK property near the city with possession within 6 months,9500000,2026-08-02,New,-,2026-08-03,91,High,Urgent purchase,Contact immediately and schedule a property consultation
+L005,Rohan Kulkarni,Referral,Exploring automation tools but has not finalized requirements,120000,2026-08-03,New,-,2026-08-07,55,Medium,Exploration,Qualify requirements and identify decision timeline
+L006,Sneha Joshi,Email Campaign,Requested information about annual subscription plans,90000,2026-08-03,Contacted,2026-08-03,2026-08-05,76,Medium,Subscription inquiry,Send plan comparison and arrange a follow-up call
+L007,Vikram Shah,Website,Ready to purchase a 2BHK apartment after comparing two options,8200000,2026-08-04,Qualified,2026-08-04,2026-08-05,94,High,Ready to buy,Prioritize lead and schedule final discussion
+L008,Ananya Rao,LinkedIn,Interested in AI automation for customer support and wants a consultation,300000,2026-08-04,New,-,2026-08-06,86,High,Solution evaluation,Schedule consultation and understand current support process
+L009,Kunal Verma,Referral,Asked for a callback regarding product integration capabilities,200000,2026-08-05,Contacted,2026-08-05,2026-08-08,79,Medium,Integration inquiry,Arrange technical discovery call and identify integration requirements
+L010,Meera Nair,Website,Looking for budget-friendly office space and comparing locations,5000000,2026-08-05,New,-,2026-08-09,68,Medium,Requirement discovery,"Qualify location, size, and budget requirements"
