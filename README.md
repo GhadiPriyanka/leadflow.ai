@@ -34,6 +34,23 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 
 ![LeadFlow AI Architecture](docs/architecture.png)
 
+## 📸 Project Demonstration
+
+### Lead Data Workflow
+![Lead Data Workflow](screenshots/01-lead-data-workflow.png)
+
+### Master Orchestrator
+![Master Orchestrator](screenshots/02-master-orchestrator.png)
+
+### Google Sheets Results
+![Google Sheets Results](screenshots/03-google-sheets-results.png)
+
+### Telegram — Top 3 Leads
+![Telegram Top 3](screenshots/04-telegram-top3.jpeg)
+
+### Telegram — Lead Details
+![Telegram Details](screenshots/05-telegram-details.jpeg)
+
 ## 🔄 End-to-End Workflow
 
                     Lead Data
