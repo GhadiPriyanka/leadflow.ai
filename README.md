@@ -70,7 +70,7 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
               └──────────────────┘
 
 
-🛠️ Technology Stack
+## 🛠️ Technology Stack
 
 * n8n - Workflow automation
 * LLMs - AI-powered lead analysis
@@ -79,7 +79,7 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 * JavaScript - Data processing and workflow logic
 * JSON - Workflow configuration
 
-🔐 Security
+## 🔐 Security
 
 - This repository contains only demonstration/sample data.
 - No API keys are included.
@@ -88,7 +88,7 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 - No real customer information is included.
 - Credentials must be configured separately when importing the workflows into n8n.
 
-💼 Business Value
+## 💼 Business Value
 
 * LeadFlow AI can help sales teams:
 * Reduce manual lead qualification
@@ -98,7 +98,7 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 * Standardize lead analysis
 * Improve sales team productivity
 
-🚀 Future Enhancements
+## 🚀 Future Enhancements
 
 - CRM integration
 - Automatic email follow-ups
@@ -108,6 +108,6 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 - Follow-up scheduling
 - Conversation history and memory
 
-👩‍💻 Author
+## 👩‍💻 Author
 
 Priyanka Ghadi
