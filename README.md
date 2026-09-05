@@ -32,7 +32,7 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 
 ## 🏗️ Architecture
 
-[LeadFlow AI Architecture](docs/architecture.png)
+![LeadFlow AI Architecture](docs/architecture.png)
 
 ## 🔄 End-to-End Workflow
 
