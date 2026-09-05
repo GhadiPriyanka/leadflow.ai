@@ -124,6 +124,7 @@ LeadFlow AI automates this process by combining workflow automation with AI-powe
 - Multi-agent lead qualification
 - Follow-up scheduling
 - Conversation history and memory
+- Multi-agent sales automation
 
 ## 👩‍💻 Author
 
